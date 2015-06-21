@@ -1,5 +1,3 @@
----
-title: "learning-project"
 author: "yan"
 date: "June 21, 2015"
 output: html_document
@@ -7,15 +5,46 @@ output: html_document
 
 ### Overview
 
-I will be fitting a cart model to the data, after I preprocess the datasets.
+I was trying to fit several classification models from "caret", but failed with most of them. The ones that did work eventually, returned all A's results.
+
+### Models
+
+I have tried to make svm, lda, rpart and rf models work, however only rpart succefully trained till the end. The prediction results though were not encouraging - all A's.
+
+I am ommiting in the next stages some of the technical details of going between datarames and matrixes, adding and removing some of the columns, etc.
+
+### Cleansing the data
+
+The raw data conttains some erronious values, like "DIV/0", related to the initial compurations done to produce it. I had to use "sed" command to clean the data by replacing those values into NA.
+
+### Dummy variables
+
+I then use the dummyVars function to transform the dataframe loaded from the cvs files into a matrix, containing only numbers. This procedure basically transforms any factored variables into a vector.
+
+dataset2 = predict(dummyVars(classe ~ ., data=dataset), dataset)
+
+Note: the dummy variables are created from the entire dataset, and only after that it is split to train and set.
+
+I am removing "classe" from the dataset until training.
+### Preprocessing
+
+I am removing the columns with zero variance.
+I am also preprocessing the data using bagImpute, which centers and scales the data, and also imputes the missing values by setting to median (medianImpute).
+
+dataset3 = predict(preProcess(dataset2, method="medianImpute"), dataset)
+
+### Training rpart
+
+adding the "classe" before training
+dataset3 = cbind(dataset$classe, dataset3)
+colnames(dataset3)[0] = "classe"
+model=train(classe ~ ., data=dataset3, method="rpart")
+
+## Predicting
+
+predict(model, data=testset)
 
 
-```{r}
-summary(cars)
-```
+## Analysis
 
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-plot(cars)
-```
+My guess is that I did not do a good job on analyzing the features. Some of them (as time) for example, were used as factors, while it is clearly not a good idea. Due to lack of time, and a lot of technical issues I had with R and caret, I was not able to produce a good result. I also did not plan to have enough time for this project, assuming it will be simpler.
