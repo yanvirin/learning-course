@@ -1,7 +1,5 @@
 author: "yan"
 date: "June 21, 2015"
-output: html_document
----
 
 ### Overview
 
