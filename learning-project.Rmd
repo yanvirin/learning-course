@@ -1,0 +1,21 @@
+---
+title: "learning-project"
+author: "yan"
+date: "June 21, 2015"
+output: html_document
+---
+
+### Overview
+
+I will be fitting a cart model to the data, after I preprocess the datasets.
+
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
